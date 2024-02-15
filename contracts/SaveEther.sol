@@ -37,4 +37,8 @@ contract SaveEther {
     function checkContractBal() external view returns (uint256) {
         return address(this).balance;
     }
+
+    function getDepositorBalance() external view returns (uint256){
+        return savings[msg.sender];
+    }
 }

@@ -25,7 +25,14 @@ describe("SaveEther", function () {
       expect(deposit.value).is.not.equal(0);
     });
 
+    it("Should check if the savings of the depositor is updated", async function () {
+      const { saveEther, owner } = await loadFixture(deploySaveEtherFixture);
+      const deposit = await saveEther.deposit({ value: 1000000000 });
 
+      expect(await saveEther.checkSavings(deposit.from)).to.equal(
+        1000000000
+      );
+    });
   });
   // })
 });
