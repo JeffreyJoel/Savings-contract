@@ -42,6 +42,28 @@ describe("SaveEther", function () {
     });
   });
 
- 
+  describe("withdrawEther", function () {
+    it("Should check that the account being withdrawn to is not an invalid account", async function () {
+      const { saveEther, owner } = await loadFixture(deploySaveEtherFixture);
+      expect(owner.address).is.not.equal(
+        "0x0000000000000000000000000000000000000000"
+      );
+    });
+
+    it("Should check that withdrawer's balance is not zero", async function () {
+      const { saveEther, owner } = await loadFixture(deploySaveEtherFixture);
+      const deposit = await saveEther.deposit({ value: 1000000000 });
+      expect(await saveEther.getDepositorBalance()).is.not.equal(0);
+    });
+
+    it("Should check that withdrawal is working", async function () {
+      const { saveEther, owner } = await loadFixture(deploySaveEtherFixture);
+      const deposit = await saveEther.deposit({ value: 1000000000 });
+
+      await saveEther.withdraw();
+
+      expect(await saveEther.getDepositorBalance()).to.equal(0);
+    });
+  });
   // })
 });
