@@ -14,7 +14,7 @@ describe("SaveEther", function () {
     return { saveEther, owner };
   }
 
-  describe("saveEther", function () {
+  describe("depositEther", function () {
     it("Should check the account being deposited to and the value being deposited", async function () {
       const { saveEther, owner } = await loadFixture(deploySaveEtherFixture);
       const deposit = await saveEther.deposit({ value: 1000000000 });
@@ -25,14 +25,23 @@ describe("SaveEther", function () {
       expect(deposit.value).is.not.equal(0);
     });
 
-    it("Should check if the savings of the depositor is updated", async function () {
+    it("Should check if the savings of the depositor is added", async function () {
       const { saveEther, owner } = await loadFixture(deploySaveEtherFixture);
       const deposit = await saveEther.deposit({ value: 1000000000 });
 
-      expect(await saveEther.checkSavings(deposit.from)).to.equal(
-        1000000000
+      expect(await saveEther.checkSavings(deposit.from)).to.equal(1000000000);
+    });
+    it("Should check if the savings of the depositor is updated", async function () {
+      const { saveEther, owner } = await loadFixture(deploySaveEtherFixture);
+      const userBalance = saveEther.getDepositorBalance();
+      const firstDeposit = await saveEther.deposit({ value: 2000000000 });
+      const secondDeposit = await saveEther.deposit({ value: 1000000000 });
+      expect(await saveEther.getDepositorBalance()).to.equal(
+        firstDeposit.value + secondDeposit.value
       );
     });
   });
+
+ 
   // })
 });
