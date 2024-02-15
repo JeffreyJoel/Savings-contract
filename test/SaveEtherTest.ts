@@ -83,7 +83,7 @@ describe("SaveEther", function () {
       );
     });
 
-    it("Should check that withdrawal is working", async function () {
+    it("Should check that sending is working", async function () {
       const { saveEther, otherAccount } = await loadFixture(
         deploySaveEtherFixture
       );
